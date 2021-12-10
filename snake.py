@@ -144,7 +144,7 @@ class MAIN:
 		self.snake.reset()
 
 	def draw_grass(self):
-		grass_color = (167,209,61)
+		grass_color = (0,102,255)
 		for row in range(cell_number):
 			if row % 2 == 0: 
 				for col in range(cell_number):
@@ -159,14 +159,14 @@ class MAIN:
 
 	def draw_score(self):
 		score_text = str(len(self.snake.body) - 3)
-		score_surface = game_font.render(score_text,True,(56,74,12))
+		score_surface = game_font.render(score_text,True,(0,255,0))
 		score_x = int(cell_size * cell_number - 60)
 		score_y = int(cell_size * cell_number - 40)
 		score_rect = score_surface.get_rect(center = (score_x,score_y))
 		apple_rect = apple.get_rect(midright = (score_rect.left,score_rect.centery))
 		bg_rect = pygame.Rect(apple_rect.left,apple_rect.top,apple_rect.width + score_rect.width + 6,apple_rect.height)
 
-		pygame.draw.rect(screen,(167,209,61),bg_rect)
+		pygame.draw.rect(screen,(0,0,255),bg_rect)
 		screen.blit(score_surface,score_rect)
 		screen.blit(apple,apple_rect)
 		pygame.draw.rect(screen,(56,74,12),bg_rect,2)
@@ -206,7 +206,7 @@ while True:
 				if main_game.snake.direction.x != 1:
 					main_game.snake.direction = Vector2(-1,0)
 
-	screen.fill((175,215,70))
+	screen.fill((0,0,255))
 	main_game.draw_elements()
 	pygame.display.update()
 	clock.tick(60)
