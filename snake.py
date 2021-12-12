@@ -174,7 +174,7 @@ class MAIN:
 pygame.mixer.pre_init(44100,-16,2,512)
 pygame.init()
 pygame.display.set_caption("Snake")
-cell_size = 40
+cell_size = 35
 cell_number = 20
 screen = pygame.display.set_mode((cell_number * cell_size,cell_number * cell_size))
 clock = pygame.time.Clock()
