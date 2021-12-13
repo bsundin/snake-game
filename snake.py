@@ -121,6 +121,7 @@ class MAIN:
 		self.fruit.draw_fruit()
 		self.snake.draw_snake()
 		self.draw_score()
+		self.draw_high()
 
 	def check_collision(self):
 		if self.fruit.pos == self.snake.body[0]:
@@ -157,6 +158,22 @@ class MAIN:
 						grass_rect = pygame.Rect(col * cell_size,row * cell_size,cell_size,cell_size)
 						pygame.draw.rect(screen,grass_color,grass_rect)			
 
+	def draw_high(self):
+		h_score_text = str(len(self.snake.body) - 3)
+		h_score_surface = game_font.render(h_score_text, True, (0,255,0))
+		h_score_x = int(cell_size * cell_number - 60)
+		h_score_y = int(40)
+		h_score_rect = h_score_surface.get_rect(center = (h_score_x, h_score_y))
+		apple_rect = apple.get_rect(midright = (h_score_rect.left,h_score_rect.centery))
+		h_bg_rect = pygame.Rect(apple_rect.left, apple_rect.top, apple_rect.width + h_score_rect.width + 6, apple_rect.height)
+		
+		pygame.draw.rect(screen, (0,0,255),h_bg_rect)
+		screen.blit(h_score_surface,h_score_rect)
+		screen.blit(apple, apple_rect)
+		pygame.draw.rect(screen, (0,255,0),h_bg_rect,2)
+
+
+	
 	def draw_score(self):
 		score_text = str(len(self.snake.body) - 3)
 		score_surface = game_font.render(score_text,True,(0,255,0))
@@ -169,7 +186,7 @@ class MAIN:
 		pygame.draw.rect(screen,(0,0,255),bg_rect)
 		screen.blit(score_surface,score_rect)
 		screen.blit(apple,apple_rect)
-		pygame.draw.rect(screen,(56,74,12),bg_rect,2)
+		pygame.draw.rect(screen,(0,255,0),bg_rect,2)
 
 pygame.mixer.pre_init(44100,-16,2,512)
 pygame.init()
@@ -179,6 +196,7 @@ cell_number = 20
 screen = pygame.display.set_mode((cell_number * cell_size,cell_number * cell_size))
 clock = pygame.time.Clock()
 apple = pygame.image.load('Graphics/apple.png').convert_alpha()
+blapple = pygame.image.load('Graphics/blapple.png').convert_alpha()
 game_font = pygame.font.Font('Font/PoetsenOne-Regular.ttf', 25)
 
 SCREEN_UPDATE = pygame.USEREVENT
