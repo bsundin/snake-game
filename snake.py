@@ -1,4 +1,4 @@
-import pygame,sys,random
+import pygame,sys,random,shelve
 from pygame.math import Vector2
 
 class SNAKE:
@@ -125,6 +125,13 @@ class MAIN:
 
 	def check_collision(self):
 		if self.fruit.pos == self.snake.body[0]:
+
+			if d['score'] <= int(score_text):
+				d['score'] += 1
+
+			hscore = d['score']
+			if int(score_text) > hscore:
+				hscore = int(score_text) + 1
 			self.fruit.randomize()
 			self.snake.add_block()
 			self.snake.play_crunch_sound()
@@ -159,7 +166,8 @@ class MAIN:
 						pygame.draw.rect(screen,grass_color,grass_rect)			
 
 	def draw_high(self):
-		h_score_text = str(len(self.snake.body) - 3)
+		global d
+		h_score_text = str(d['score'])
 		h_score_surface = game_font.render(h_score_text, True, (0,255,0))
 		h_score_x = int(cell_size * cell_number - 60)
 		h_score_y = int(40)
@@ -175,6 +183,7 @@ class MAIN:
 
 	
 	def draw_score(self):
+		global score_text
 		score_text = str(len(self.snake.body) - 3)
 		score_surface = game_font.render(score_text,True,(0,255,0))
 		score_x = int(cell_size * cell_number - 60)
@@ -200,6 +209,10 @@ game_font = pygame.font.Font('Font/PoetsenOne-Regular.ttf', 25)
 
 SCREEN_UPDATE = pygame.USEREVENT
 pygame.time.set_timer(SCREEN_UPDATE,150)
+
+d = shelve.open('score.txt')
+if not 'score' in d:
+	d['score'] = 0
 
 main_game = MAIN()
 
