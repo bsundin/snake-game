@@ -95,36 +95,37 @@ class SNAKE:
 
 
 class FRUIT:
-	# Randomizes the location
+	# Initializes the fruit
 	def __init__(self):
 		self.randomize()
-
+	# Draws the fruit
 	def draw_fruit(self):
 		fruit_rect = pygame.Rect(int(self.pos.x * cell_size),int(self.pos.y * cell_size),cell_size,cell_size)
 		screen.blit(apple,fruit_rect)
-
+	# Randomizes the location
 	def randomize(self):
 		self.x = random.randint(0,cell_number - 1)
 		self.y = random.randint(0,cell_number - 1)
 		self.pos = Vector2(self.x,self.y)
 
 class MAIN:
+	# Initializes then snake and the fruit
 	def __init__(self):
 		self.snake = SNAKE()
 		self.fruit = FRUIT()
-
+	# Updates the graphics
 	def update(self):
 		self.snake.move_snake()
 		self.check_collision()
 		self.check_fail()
-
+	# Draws the elements
 	def draw_elements(self):
 		self.draw_grass()
 		self.fruit.draw_fruit()
 		self.snake.draw_snake()
 		self.draw_score()
 		self.draw_high()
-
+	# Checks for the collision with the fruit
 	def check_collision(self):
 		if self.fruit.pos == self.snake.body[0]:
 
@@ -141,7 +142,7 @@ class MAIN:
 		for block in self.snake.body[1:]:
 			if block == self.fruit.pos:
 				self.fruit.randomize()
-
+	# Checks for a collision with itself or the wall
 	def check_fail(self):
 		if not 0 <= self.snake.body[0].x < cell_number or not 0 <= self.snake.body[0].y < cell_number:
 			self.game_over()
@@ -150,10 +151,10 @@ class MAIN:
 			if block == self.snake.body[0]:
 				print("Self Collision Detected")
 				self.game_over()
-		
+	# Resets the name
 	def game_over(self):
 		self.snake.reset()
-
+	# Draws grass
 	def draw_grass(self):
 		grass_color = (0,102,255)
 		for row in range(cell_number):
@@ -167,7 +168,7 @@ class MAIN:
 					if col % 2 != 0:
 						grass_rect = pygame.Rect(col * cell_size,row * cell_size,cell_size,cell_size)
 						pygame.draw.rect(screen,grass_color,grass_rect)			
-
+	# Draws the high score
 	def draw_high(self):
 		global d
 		h_score_text = str(d['score'])
@@ -182,9 +183,7 @@ class MAIN:
 		screen.blit(h_score_surface,h_score_rect)
 		screen.blit(apple, apple_rect)
 		pygame.draw.rect(screen, (0,255,0),h_bg_rect,2)
-
-
-	
+	# Draws the current score
 	def draw_score(self):
 		global score_text
 		score_text = str(len(self.snake.body) - 3)
@@ -199,11 +198,15 @@ class MAIN:
 		screen.blit(score_surface,score_rect)
 		screen.blit(apple,apple_rect)
 		pygame.draw.rect(screen,(0,255,0),bg_rect,2)
-
+# Initializes the sound
 pygame.mixer.pre_init(44100,-16,2,512)
+# Initializes Pygame
 pygame.init()
+# Sets the top bar text
 pygame.display.set_caption("Snake")
+# Sets the size of the grid squares
 cell_size = 35
+# Sets the number of cells in the grid
 cell_number = 20
 screen = pygame.display.set_mode((cell_number * cell_size,cell_number * cell_size))
 clock = pygame.time.Clock()
